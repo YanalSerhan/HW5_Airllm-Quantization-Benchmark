@@ -68,24 +68,24 @@
 **Why:** EX05 is explicitly an **open-ended, hypothesis-driven research assignment**, not a fixed recipe — "There is no single exact formula" (EX05 §1). You must plan an engineering experiment, not just run scripts.
 
 ### 2.1 Define the Core Research Questions (EX05 §4 — MANDATORY to address in report)
-- [ ] What exactly caused the bottleneck in the baseline run (VRAM/RAM vs compute-bound)? How did you identify it?
-- [ ] How does AirLLM change resource allocation, and what is its relationship to virtual memory?
-- [ ] What was the effect of quantization on speed, memory footprint, and output quality? Where is the "red line" of acceptable quality degradation?
-- [ ] How do Prefill and Decode stages manifest in your measurements (TTFT vs TPOT)? What does each reflect (compute load vs memory load)?
-- [ ] What is the price (latency/throughput) you pay locally for running a large model on modest hardware?
-- [ ] When is it economically worthwhile to run locally vs use an external API?
+- [x] What exactly caused the bottleneck in the baseline run (VRAM/RAM vs compute-bound)? How did you identify it?
+- [x] How does AirLLM change resource allocation, and what is its relationship to virtual memory?
+- [x] What was the effect of quantization on speed, memory footprint, and output quality? Where is the "red line" of acceptable quality degradation?
+- [x] How do Prefill and Decode stages manifest in your measurements (TTFT vs TPOT)? What does each reflect (compute load vs memory load)?
+- [x] What is the price (latency/throughput) you pay locally for running a large model on modest hardware?
+- [x] When is it economically worthwhile to run locally vs use an external API?
 
 ### 2.2 Plan the Experimental Design
-- [ ] Decide the **scope** of experimentation — explicitly note that this is a deliberate trade-off (small/fast experiments to demonstrate principles, not multi-day production runs). (EX05 §3, "Planning & Efficiency")
-- [ ] Plan to start with **smallest possible config first**: lowest quantization level, smallest prompt/token counts. Scale up only after pipeline is verified working. (EX05 §6.1 "Do")
-- [ ] Decide which quantization levels you will test (e.g., FP16, Q8, Q4) — reference L08 Table 3 quantization levels.
-- [ ] Decide whether you will attempt at least one **original extension** (mandatory — see §5.7 below).
-- [ ] Sketch in advance which graphs/tables will be produced (see §6 and §7) so data collection captures everything needed in one pass.
+- [x] Decide the **scope** of experimentation — explicitly note that this is a deliberate trade-off (small/fast experiments to demonstrate principles, not multi-day production runs). (EX05 §3, "Planning & Efficiency")
+- [x] Plan to start with **smallest possible config first**: lowest quantization level, smallest prompt/token counts. Scale up only after pipeline is verified working. (EX05 §6.1 "Do")
+- [x] Decide which quantization levels you will test (e.g., FP16, Q8, Q4) — reference L08 Table 3 quantization levels.
+- [x] Decide whether you will attempt at least one **original extension** (mandatory — see §5.7 below).
+- [x] Sketch in advance which graphs/tables will be produced (see §6 and §7) so data collection captures everything needed in one pass.
 
 ### ✅ Verification — Section 2
-- [ ] All 6 research questions from EX05 §4 are explicitly listed somewhere you will answer them later.
-- [ ] Experiment plan written down (even informally) before writing code.
-- [ ] At least one "original idea" selected from EX05 §5.7 menu or invented.
+- [x] All 6 research questions from EX05 §4 are explicitly listed somewhere you will answer them later.
+- [x] Experiment plan written down (even informally) before writing code.
+- [x] At least one "original idea" selected from EX05 §5.7 menu or invented.
 
 ---
 
