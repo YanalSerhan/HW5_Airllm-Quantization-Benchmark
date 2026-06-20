@@ -1,0 +1,38 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Secrets
+*.key
+*.pem
+credentials.json
+
+# Build and cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Model Weights
+model_weights/
+*.bin
+*.safetensors
+*.gguf
+
+# Results
+results/
+data/raw/
+
+# User files
+/instructions

@@ -1,0 +1,18 @@
+[project]
+name = "hw5-airllm-benchmark"
+version = "1.00"
+description = "HW5 AirLLM Quantization Benchmark"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+  { name = "Yanal", email = "yanal@example.com" }
+]
+license = { text = "MIT" }
+dependencies = [
+    "accelerate>=1.14.0",
+    "airllm>=2.11.0",
+    "python-dotenv>=1.2.2",
+    "ruff>=0.15.18",
+    "torch>=2.12.1",
+    "transformers>=5.12.1",
+]
