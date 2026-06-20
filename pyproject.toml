@@ -11,8 +11,21 @@ license = { text = "MIT" }
 dependencies = [
     "accelerate>=1.14.0",
     "airllm>=2.11.0",
+    "httpx>=0.28.1",
+    "psutil>=7.2.2",
     "python-dotenv>=1.2.2",
     "ruff>=0.15.18",
     "torch>=2.12.1",
     "transformers>=5.12.1",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = []

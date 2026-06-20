@@ -94,25 +94,25 @@
 **Why:** GUIDE is a strict, points-bearing engineering rubric layered on top of EX05; EX05 explicitly requires a GitHub repo with code, experiments, and a report. Treat GUIDE as binding for the whole repo.
 
 ### 3.1 Mandatory Top-Level Files
-- [ ] `README.md` at repo root (GUIDE §2.1, EX05 §8) — see §10 below for full required content.
-- [ ] `pyproject.toml`, `uv.lock`
-- [ ] `.env-example`, `.gitignore`
+- [x] `README.md` at repo root (GUIDE §2.1, EX05 §8) — see §10 below for full required content.
+- [x] `pyproject.toml`, `uv.lock`
+- [x] `.env-example`, `.gitignore`
 
 ### 3.2 Mandatory `docs/` Folder (GUIDE §2.2)
-- [ ] `docs/PRD.md` — Product Requirements Document: project goal, scope, success criteria/KPIs, functional/non-functional requirements, assumptions/constraints, timeline.
-- [ ] `docs/PLAN.md` — architecture/technical plan: high-level diagram of pipeline (download → baseline run → AirLLM+quantization → benchmarking → economic analysis → report), C4 Model & UML diagrams, and explicit **ADRs (Architecture Decision Records)** detailing trade-offs. (GUIDE §2.2)
-- [ ] `docs/TODO.md` — granular task list with status (not-started/in-progress/done), phases, and "definition of done" per task (this can be a project-specific derivative of the present file).
-- [ ] (Optional but recommended) `docs/PRD_<mechanism>.md` per major technical component (e.g., `PRD_quantization.md`, `PRD_airllm_pipeline.md`, `PRD_benchmarking.md`) per GUIDE §2.3.
+- [x] `docs/PRD.md` — Product Requirements Document: project goal, scope, success criteria/KPIs, functional/non-functional requirements, assumptions/constraints, timeline.
+- [x] `docs/PLAN.md` — architecture/technical plan: high-level diagram of pipeline (download → baseline run → AirLLM+quantization → benchmarking → economic analysis → report), C4 Model & UML diagrams, and explicit **ADRs (Architecture Decision Records)** detailing trade-offs. (GUIDE §2.2)
+- [x] `docs/TODO.md` — granular task list with status (not-started/in-progress/done), phases, and "definition of done" per task (this can be a project-specific derivative of the present file).
+- [x] (Optional but recommended) `docs/PRD_<mechanism>.md` per major technical component (e.g., `PRD_quantization.md`, `PRD_airllm_pipeline.md`, `PRD_benchmarking.md`) per GUIDE §2.3.
 
 ### 3.2a Mandatory Workflow Order (GUIDE §2.5)
 **Why:** GUIDE mandates that all documentation is approved *before* any code is written — this order is enforced and graded.
-- [ ] Step 1 — Create and finalize `docs/PRD.md`; get approval before continuing.
-- [ ] Step 2 — Create and finalize `docs/PLAN.md` (architecture plan).
-- [ ] Step 3 — Create and finalize `docs/TODO.md` (task list).
-- [ ] Step 4 — Create per-mechanism PRDs for any major algorithm/component (e.g., `docs/PRD_airllm_pipeline.md`, `docs/PRD_benchmarking.md`).
-- [ ] Step 5 — All documents approved before starting development.
-- [ ] Step 6 — Update `docs/TODO.md` as development progresses.
-- [ ] Step 7 — Save results, create visualizations, and update `README.md` at the end.
+- [x] Step 1 — Create and finalize `docs/PRD.md`; get approval before continuing.
+- [x] Step 2 — Create and finalize `docs/PLAN.md` (architecture plan).
+- [x] Step 3 — Create and finalize `docs/TODO.md` (task list).
+- [x] Step 4 — Create per-mechanism PRDs for any major algorithm/component (e.g., `docs/PRD_airllm_pipeline.md`, `docs/PRD_benchmarking.md`).
+- [x] Step 5 — All documents approved before starting development.
+- [x] Step 6 — Update `docs/TODO.md` as development progresses.
+- [x] Step 7 — Save results, create visualizations, and update `README.md` at the end.
 
 ### 3.3 Recommended Folder Layout (EX05 §9, GUIDE §2.4 merged)
 ```
@@ -152,28 +152,28 @@ project-root/
 │   └── integration/
 └── notebooks/
 ```
-- [ ] Keep structure modular by responsibility: `src/` (code), `experiments/` (run scripts), `results/` (raw measurement output, e.g., CSV/JSON), `reports/` (final write-up), `figures/` (generated plots).
-- [ ] Confirm structure is consistent, navigable, adapted sensibly to actual project needs (not slavishly copied if irrelevant). (EX05 §9)
+- [x] Keep structure modular by responsibility: `src/` (code), `experiments/` (run scripts), `results/` (raw measurement output, e.g., CSV/JSON), `reports/` (final write-up), `figures/` (generated plots).
+- [x] Confirm structure is consistent, navigable, adapted sensibly to actual project needs (not slavishly copied if irrelevant). (EX05 §9)
 
 ### 3.4 Code Quality Rules (GUIDE §3, §4, §6, §7 — apply throughout implementation)
-- [ ] No source file exceeds **150 lines** of code (excluding blank/comment-only lines). Split via helper functions, mixins, constants files, model files, etc. (GUIDE §3.2)
-- [ ] Every function/class has a docstring explaining *why*, not just *what*. (GUIDE §3.3)
-- [ ] Follow **SDK-style architecture** if building reusable modules: all business logic reachable through a single SDK layer; GUI/CLI layers never embed logic directly. (GUIDE §4.1)
-- [ ] Avoid code duplication — extract shared logic into helper functions/mixins/base classes (OOP, no copy-paste). (GUIDE §4.2)
-- [ ] If calling any external API (e.g., OpenAI/Claude pricing lookups, or live API benchmarking) — route all calls through a centralized **API Gatekeeper** class enforcing rate limits, retries, logging, and a queue. (GUIDE §5) Rate limit values must live in config (e.g., `config/rate_limits.json`), never hard-coded.
-- [ ] No magic numbers/strings hard-coded — pull from `config/*.json`, `.env`, or `constants.py`. (GUIDE §7.2, Table 1)
-- [ ] Use `Ruff` linter with zero violations (`ruff check`). Configure in `pyproject.toml` per GUIDE §7.1.
-- [ ] Follow TDD where feasible: write/maintain tests in `tests/unit/` mirroring `src/` structure; target ≥85% coverage if you build a non-trivial reusable library (note: a pure experiment-script repo may relax this, but **document the decision** in README/PLAN).
-- [ ] Use relative imports / package-qualified imports only, no absolute filesystem paths. (GUIDE §14.3)
-- [ ] Tag versions starting at `1.00`, bump on meaningful changes (`src/<pkg>/shared/version.py`, GUIDE §8.1 Table 2).
-- [ ] **Edge Cases & Error Handling**: Explicitly document and test edge cases. Ensure graceful degradation, clear error messages, and proper logging for failure modes. (GUIDE §6.3)
+- [x] No source file exceeds **150 lines** of code (excluding blank/comment-only lines). Split via helper functions, mixins, constants files, model files, etc. (GUIDE §3.2)
+- [x] Every function/class has a docstring explaining *why*, not just *what*. (GUIDE §3.3)
+- [x] Follow **SDK-style architecture** if building reusable modules: all business logic reachable through a single SDK layer; GUI/CLI layers never embed logic directly. (GUIDE §4.1)
+- [x] Avoid code duplication — extract shared logic into helper functions/mixins/base classes (OOP, no copy-paste). (GUIDE §4.2)
+- [x] If calling any external API (e.g., OpenAI/Claude pricing lookups, or live API benchmarking) — route all calls through a centralized **API Gatekeeper** class enforcing rate limits, retries, logging, and a queue. (GUIDE §5) Rate limit values must live in config (e.g., `config/rate_limits.json`), never hard-coded.
+- [x] No magic numbers/strings hard-coded — pull from `config/*.json`, `.env`, or `constants.py`. (GUIDE §7.2, Table 1)
+- [x] Use `Ruff` linter with zero violations (`ruff check`). Configure in `pyproject.toml` per GUIDE §7.1.
+- [x] Follow TDD where feasible: write/maintain tests in `tests/unit/` mirroring `src/` structure; target ≥85% coverage if you build a non-trivial reusable library (note: a pure experiment-script repo may relax this, but **document the decision** in README/PLAN).
+- [x] Use relative imports / package-qualified imports only, no absolute filesystem paths. (GUIDE §14.3)
+- [x] Tag versions starting at `1.00`, bump on meaningful changes (`src/<pkg>/shared/version.py`, GUIDE §8.1 Table 2).
+- [x] **Edge Cases & Error Handling**: Explicitly document and test edge cases. Ensure graceful degradation, clear error messages, and proper logging for failure modes. (GUIDE §6.3)
 
 ### 3.5 Python Package Organization (GUIDE §14)
 **Why:** GUIDE §14 explicitly requires proper Python package conventions — this is a graded quality gate.
-- [ ] Every package directory inside `src/` must have an `__init__.py` that exports public interfaces via `__all__` and defines `__version__`. (GUIDE §14.2)
-- [ ] All imports inside `src/` use relative or package-qualified paths — never absolute filesystem paths or `sys.path` manipulation. (GUIDE §14.3)
-- [ ] `pyproject.toml` must specify: package name, version (`1.00`+), description, author, license, and all dependencies with version pins. (GUIDE §14.1)
-- [ ] Validate config version compatibility on startup: app reads `"version"` from config JSON files and asserts compatibility. (GUIDE §8.1 Table 2)
+- [x] Every package directory inside `src/` must have an `__init__.py` that exports public interfaces via `__all__` and defines `__version__`. (GUIDE §14.2)
+- [x] All imports inside `src/` use relative or package-qualified paths — never absolute filesystem paths or `sys.path` manipulation. (GUIDE §14.3)
+- [x] `pyproject.toml` must specify: package name, version (`1.00`+), description, author, license, and all dependencies with version pins. (GUIDE §14.1)
+- [x] Validate config version compatibility on startup: app reads `"version"` from config JSON files and asserts compatibility. (GUIDE §8.1 Table 2)
 
 ### 3.6 Git Best Practices & Prompt Engineering Log (GUIDE §8.2, §8.3)
 **Why:** GUIDE §8.2 requires a clean, traceable Git history. GUIDE §8.3 requires a Prompt Book documenting AI assistance — graders may check both.
@@ -181,34 +181,34 @@ project-root/
 - [ ] Use separate Git branches for distinct features/experiments (e.g., `feature/airllm-pipeline`, `feature/economic-analysis`). (GUIDE §8.2)
 - [ ] Use Pull Requests / self-review before merging to `main` to keep the main branch clean. (GUIDE §8.2)
 - [ ] Tag the final submission commit (e.g., `v1.0-submission` or `v1.00`). (GUIDE §8.2)
-- [ ] **Prompt Engineering Log** — create `docs/prompt_log.md` (or similar): document all significant AI prompts used, their context/goal, the outputs they produced, and iterative improvements. (GUIDE §8.3)
+- [x] **Prompt Engineering Log** — create `docs/prompt_log.md` (or similar): document all significant AI prompts used, their context/goal, the outputs they produced, and iterative improvements. (GUIDE §8.3)
 
 ### 3.7 Parallel Processing Guidelines (GUIDE §15)
 **Why:** GUIDE §15 is a required checklist item — relevant if measurement or data-processing scripts use any concurrency.
-- [ ] Identify which experiment steps are CPU-bound vs I/O-bound and choose the correct Python concurrency primitive (multiprocessing for CPU-bound; threading for I/O-bound). (GUIDE §15.1)
-- [ ] If using threads: protect shared state with locks; use `queue.Queue` for inter-thread communication; avoid deadlocks via consistent lock ordering. (GUIDE §15.2)
-- [ ] Ensure all threads/processes are properly closed on exit (use context managers / `executor.shutdown(wait=True)`). (GUIDE §15.3)
-- [ ] Document any parallelism choices in `docs/PLAN.md`.
+- [x] Identify which experiment steps are CPU-bound vs I/O-bound and choose the correct Python concurrency primitive (multiprocessing for CPU-bound; threading for I/O-bound). (GUIDE §15.1)
+- [x] If using threads: protect shared state with locks; use `queue.Queue` for inter-thread communication; avoid deadlocks via consistent lock ordering. (GUIDE §15.2)
+- [x] Ensure all threads/processes are properly closed on exit (use context managers / `executor.shutdown(wait=True)`). (GUIDE §15.3)
+- [x] Document any parallelism choices in `docs/PLAN.md`.
 
 ### 3.8 Building-Block Design Pattern (GUIDE §16)
 **Why:** GUIDE §16 requires each significant reusable module to be a self-contained "building block" with explicit input/output/setup contracts.
-- [ ] For each significant module (e.g., measurement harness, economic calculator, AirLLM pipeline wrapper), document:
+- [x] For each significant module (e.g., measurement harness, economic calculator, AirLLM pipeline wrapper), document:
   - **Input Data**: parameter types, valid ranges, external dependencies, validation logic.
   - **Output Data**: return types, format, edge-case behavior.
   - **Setup Data**: constructor parameters, defaults, configuration keys.
-- [ ] Each building block adheres to the Single Responsibility Principle — one concern per module. (GUIDE §16.2)
-- [ ] Each building block is independently testable via dependency injection (no hidden global state). (GUIDE §16.2)
+- [x] Each building block adheres to the Single Responsibility Principle — one concern per module. (GUIDE §16.2)
+- [x] Each building block is independently testable via dependency injection (no hidden global state). (GUIDE §16.2)
 
 ### ✅ Verification — Section 3
-- [ ] `docs/PRD.md`, `docs/PLAN.md`, `docs/TODO.md` all exist and are non-trivial.
-- [ ] Per-mechanism PRDs created for major components (AirLLM pipeline, benchmarking, etc.).
-- [ ] Prompt Engineering Log (`docs/prompt_log.md`) exists and is populated.
-- [ ] Folder tree matches (or sensibly adapts) the recommended layout (includes `data/` and `assets/`).
-- [ ] No file >150 lines.
-- [ ] `ruff check` passes clean.
-- [ ] No secrets anywhere in tracked files (manual grep for `key`, `token`, `secret`, `password`).
-- [ ] All `__init__.py` files export `__all__` and define `__version__`.
-- [ ] All imports in `src/` are relative or package-qualified (no `sys.path` hacks).
+- [x] `docs/PRD.md`, `docs/PLAN.md`, `docs/TODO.md` all exist and are non-trivial.
+- [x] Per-mechanism PRDs created for major components (AirLLM pipeline, benchmarking, etc.).
+- [x] Prompt Engineering Log (`docs/prompt_log.md`) exists and is populated.
+- [x] Folder tree matches (or sensibly adapts) the recommended layout (includes `data/` and `assets/`).
+- [x] No file >150 lines.
+- [x] `ruff check` passes clean.
+- [x] No secrets anywhere in tracked files (manual grep for `key`, `token`, `secret`, `password`).
+- [x] All `__init__.py` files export `__all__` and define `__version__`.
+- [x] All imports in `src/` are relative or package-qualified (no `sys.path` hacks).
 - [ ] Git log has meaningful commit messages; feature branches used; repo tagged for submission.
 
 ---

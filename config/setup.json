@@ -1,0 +1,9 @@
+{
+  "version": "1.00",
+  "model_name": "Qwen/Qwen2.5-72B-Instruct",
+  "layer_shards_path": "D:/airllm_shards",
+  "max_new_tokens": 50,
+  "prompt": "Explain the concept of virtual memory in one paragraph.",
+  "quantization_levels": ["4bit", "8bit", null],
+  "log_file": "results/benchmark_metrics.csv"
+}
