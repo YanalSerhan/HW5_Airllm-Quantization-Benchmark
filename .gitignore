@@ -26,6 +26,7 @@ build/
 
 # Model Weights
 model_weights/
+/airllm_shards
 *.bin
 *.safetensors
 *.gguf
@@ -36,3 +37,4 @@ data/raw/
 
 # User files
 /instructions
+runs.txt

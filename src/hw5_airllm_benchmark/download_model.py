@@ -34,5 +34,5 @@ if __name__ == "__main__":
     from dotenv import load_dotenv
     load_dotenv()
 
-    # Qwen/Qwen2.5-72B-Instruct requires significant disk space (~144GB)
-    download_model("Qwen/Qwen2.5-72B-Instruct")
+    # Qwen/Qwen2.5-7B-Instruct requires significant disk space (~14GB)
+    download_model("Qwen/Qwen2.5-7B-Instruct")

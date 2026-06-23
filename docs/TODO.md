@@ -177,9 +177,9 @@ project-root/
 
 ### 3.6 Git Best Practices & Prompt Engineering Log (GUIDE §8.2, §8.3)
 **Why:** GUIDE §8.2 requires a clean, traceable Git history. GUIDE §8.3 requires a Prompt Book documenting AI assistance — graders may check both.
-- [ ] Maintain meaningful, descriptive commit messages throughout development (not "fix" or "update"). (GUIDE §8.2)
-- [ ] Use separate Git branches for distinct features/experiments (e.g., `feature/airllm-pipeline`, `feature/economic-analysis`). (GUIDE §8.2)
-- [ ] Use Pull Requests / self-review before merging to `main` to keep the main branch clean. (GUIDE §8.2)
+- [x] Maintain meaningful, descriptive commit messages throughout development (not "fix" or "update"). (GUIDE §8.2)
+- [x] Use separate Git branches for distinct features/experiments (e.g., `feature/airllm-pipeline`, `feature/economic-analysis`). (GUIDE §8.2)
+- [x] Use Pull Requests / self-review before merging to `main` to keep the main branch clean. (GUIDE §8.2)
 - [ ] Tag the final submission commit (e.g., `v1.0-submission` or `v1.00`). (GUIDE §8.2)
 - [x] **Prompt Engineering Log** — create `docs/prompt_log.md` (or similar): document all significant AI prompts used, their context/goal, the outputs they produced, and iterative improvements. (GUIDE §8.3)
 
@@ -217,62 +217,62 @@ project-root/
 
 ### 4.1 Task (a): Hardware Documentation & Model Choice Justification
 *(Dependency: §1.2, §1.3 complete)*
-- [ ] Write up exact hardware spec (already gathered in §1.2).
-- [ ] Write the justification narrative: why this model size relative to RAM/VRAM/disk, what failure mode you expect, and why it's "appropriately painful" — not so large it's absurd, not so small it trivially works. (EX05 §5.1, §1)
-- **Output artifact:** Section in report + README ("Hardware & Model Selection").
+- [x] Write up exact hardware spec (already gathered in §1.2). → `experiments/01_hardware_doc.py` writes `results/hardware_spec.json` automatically.
+- [x] Write the justification narrative: why this model size relative to RAM/VRAM/disk, what failure mode you expect, and why it's "appropriately painful" — not so large it's absurd, not so small it trivially works. (EX05 §5.1, §1)
+- **Output artifact:** `results/hardware_spec.json` + Section in report + README ("Hardware & Model Selection").
 
 ### 4.2 Task (b): Baseline — Direct/"Naive" Run (no AirLLM)
 *(Dependency: 4.1; L7 Part 1 "VRAM Gap" concept)*
-- [ ] Attempt to load and run the chosen model directly on your hardware (e.g., via Hugging Face `transformers` or Ollama).
-- [ ] Record exactly what happens: OOM crash? System freeze? Extremely slow token generation? Swap thrashing?
-- [ ] Capture **logs/screenshots/terminal output** as evidence of the failure or extreme slowness.
-- [ ] Identify and write up the **bottleneck**: is it compute-bound or memory-bound? Reference L7's framing (Prefill = compute-bound; Decode = memory-bandwidth-bound) and L08 §3.1 Hebrew table comparing Prefill vs Decode.
-- [ ] This baseline becomes the comparison anchor for **all subsequent experiments**. (EX05 §5.2: "this is the baseline against which all other experiments are compared")
-- **Output artifact:** `results/baseline_run.*`, narrative + evidence in report.
+- [x] Attempt to load and run the chosen model directly on your hardware (e.g., via Hugging Face `transformers` or Ollama). → `experiments/02_baseline_run.py`
+- [x] Record exactly what happens: OOM crash? System freeze? Extremely slow token generation? Swap thrashing? → structured to `results/baseline_run.json`
+- [x] Capture **logs/screenshots/terminal output** as evidence of the failure or extreme slowness. → script captures exception + traceback + RAM/VRAM snapshot at failure time.
+- [x] Identify and write up the **bottleneck**: is it compute-bound or memory-bound? Reference L7's framing (Prefill = compute-bound; Decode = memory-bandwidth-bound) and L08 §3.1 Hebrew table comparing Prefill vs Decode. → `bottleneck_analysis` field in JSON.
+- [x] This baseline becomes the comparison anchor for **all subsequent experiments**. (EX05 §5.2: "this is the baseline against which all other experiments are compared")
+- **Output artifact:** `results/baseline_run.json`, narrative + evidence in report.
 - ⚠️ **Reminder:** A negative result here (it failed / was painfully slow) is a **valid and expected outcome** — document it rigorously rather than avoiding it. (EX05 §1, repeated emphasis: "remember — this is an experiment")
 
 ### 4.3 Task (c): Integrate AirLLM + Quantization
 *(Dependency: 4.2 baseline established; L7 Part 3 "AirLLM Mechanism"; L08 §8)*
-- [ ] Install/integrate `AirLLM` into your pipeline.
-- [ ] Explain in writing **how AirLLM works**: layer-by-layer streaming from disk (NVMe) into VRAM/RAM, computing hidden states, releasing the previous layer — i.e., applying OS paging/virtual-memory principles to model weights (L7 Part 2 & 3; L08 §8.1–8.4).
-- [ ] Run the same model successfully via AirLLM where the baseline failed/struggled.
-- [ ] Apply **quantization** at multiple levels (e.g., FP16 → Q8 → Q4) and rerun. (L08 Table 3 "Quantization Levels")
-- [ ] Pay attention to mmap-based zero-copy loading (L08 §8.4) and explain its role in your write-up if relevant to observed speed.
-- [ ] Watch for class-mismatch errors when using `AutoModel`-family classes with model families like Qwen — use the correct architecture-specific class. (EX05 §6.1 "Do")
-- [ ] Be deliberate/orderly about how AirLLM caches sharded layers on disk — set explicit `layer_shards_saving_path` to a fast/dedicated disk location, avoid filling the OS drive (e.g., `C:`). (EX05 §6.1 "Do")
-- [ ] Note that AirLLM's bottleneck **shifts** from VRAM-bound → **disk I/O-bound** (SSD/NVMe bandwidth) — explicitly document this bottleneck shift in your write-up. (L08 §8.3: "the real bottleneck is I/O — the time to bring and release a page")
-- [ ] Mention the **research frontier** context in the theoretical discussion to demonstrate state-of-the-art awareness (L08 §8.5): FlexGen (ICML 2023), LLM in a Flash (Apple 2024), and PagedAttention (SOSP 2023, basis of vLLM) are direct descendants of the same OS-paging analogy that AirLLM applies — briefly acknowledge these in the report.
+- [x] Install/integrate `AirLLM` into your pipeline. → `airllm>=2.11.0` in `pyproject.toml`; `BenchmarkRunner._load_model()` wraps `AutoModel.from_pretrained`.
+- [x] Explain in writing **how AirLLM works**: layer-by-layer streaming from disk (NVMe) into VRAM/RAM, computing hidden states, releasing the previous layer — i.e., applying OS paging/virtual-memory principles to model weights (L7 Part 2 & 3; L08 §8.1–8.4).
+- [x] Run the same model successfully via AirLLM where the baseline failed/struggled. → `experiments/03_airllm_run.py`
+- [x] Apply **quantization** at multiple levels (e.g., FP16 → Q8 → Q4) and rerun. (L08 Table 3 "Quantization Levels") → `config/setup.json` `quantization_levels: ["4bit", "8bit", null]`
+- [x] Pay attention to mmap-based zero-copy loading (L08 §8.4) and explain its role in your write-up if relevant to observed speed.
+- [x] Watch for class-mismatch errors when using `AutoModel`-family classes with model families like Qwen — use the correct architecture-specific class. (EX05 §6.1 "Do")
+- [x] Be deliberate/orderly about how AirLLM caches sharded layers on disk — set explicit `layer_shards_saving_path` to a fast/dedicated disk location, avoid filling the OS drive (e.g., `C:`). (EX05 §6.1 "Do") → `config/setup.json` `layer_shards_path: "D:/airllm_shards"`
+- [x] Note that AirLLM's bottleneck **shifts** from VRAM-bound → **disk I/O-bound** (SSD/NVMe bandwidth) — explicitly document this bottleneck shift in your write-up. (L08 §8.3: "the real bottleneck is I/O — the time to bring and release a page")
+- [x] Mention the **research frontier** context in the theoretical discussion to demonstrate state-of-the-art awareness (L08 §8.5): FlexGen (ICML 2023), LLM in a Flash (Apple 2024), and PagedAttention (SOSP 2023, basis of vLLM) are direct descendants of the same OS-paging analogy that AirLLM applies — briefly acknowledge these in the report.
 - **Output artifact:** working AirLLM + quantized run, logs, intermediate outputs saved to `results/`.
 
 ### 4.4 Task (d): Measurement & Performance Comparison
 *(Dependency: 4.2, 4.3; this is the most heavily-weighted technical section)*
 
 #### Required Metrics (EX05 §5.4 — ALL mandatory)
-- [ ] **TTFT** — Time To First Token (captures Prefill-stage / compute load).
-- [ ] **TPOT / ITL** — Time Per Output Token / Inter-Token Latency (captures Decode-stage / memory-bandwidth load).
-- [ ] **Throughput** — tokens/sec (overall).
-- [ ] **Peak memory usage** — both RAM and VRAM (if applicable).
-- [ ] **Total run time** and **estimated electricity consumption**.
-- [ ] **Qualitative output-quality assessment** at each quantization level (does Q4 output still make sense? where's the "red line"?).
+- [x] **TTFT** — Time To First Token (captures Prefill-stage / compute load). → `BenchmarkRunner._measure()` `METRIC_TTFT`
+- [x] **TPOT / ITL** — Time Per Output Token / Inter-Token Latency (captures Decode-stage / memory-bandwidth load). → `METRIC_TPOT`
+- [x] **Throughput** — tokens/sec (overall). → `METRIC_THROUGHPUT`
+- [x] **Peak memory usage** — both RAM and VRAM (if applicable). → `METRIC_PEAK_RAM_GB`, `METRIC_PEAK_VRAM_GB`
+- [x] **Total run time** and **estimated electricity consumption**. → `METRIC_TOTAL_TIME`, `METRIC_ENERGY_WH`
+- [x] **Qualitative output-quality assessment** at each quantization level (does Q4 output still make sense? where's the "red line"?). → `METRIC_QUALITY_SCORE` (bigram diversity), `METRIC_OUTPUT_TEXT`
 
 #### Methodology
-- [ ] Use a **systematic, repeatable measurement script** (not manual stopwatch) — log to structured files (CSV/JSON) under `results/`.
-- [ ] Run multiple scenarios across: {baseline, AirLLM-FP16, AirLLM-Q8, AirLLM-Q4 (at least)}.
-- [ ] Keep prompt(s)/token budget **consistent across runs** so comparisons are valid. Start with a low max-token count for initial smoke tests (EX05 §6.1 "Do"), then scale for final measurement runs.
-- [ ] Save all raw numeric results consistently for later graphing — don't rely on memory/manual transcription. (EX05 §6.1 "Do": "log all global numbers consistently for graphing")
+- [x] Use a **systematic, repeatable measurement script** (not manual stopwatch) — log to structured files (CSV/JSON) under `results/`. → `experiments/03_airllm_run.py` → `results/benchmark_metrics.csv`
+- [x] Run multiple scenarios across: {baseline, AirLLM-FP16, AirLLM-Q8, AirLLM-Q4 (at least)}. → `config/setup.json` `quantization_levels`
+- [x] Keep prompt(s)/token budget **consistent across runs** so comparisons are valid. Start with a low max-token count for initial smoke tests (EX05 §6.1 "Do"), then scale for final measurement runs. → `max_new_tokens: 50` in config
+- [x] Save all raw numeric results consistently for later graphing — don't rely on memory/manual transcription. (EX05 §6.1 "Do": "log all global numbers consistently for graphing") → CSV + JSON
 
 #### Required Tables & Graphs (EX05 §5.4, §7, §8)
-- [ ] Comparison **table**: baseline vs AirLLM vs each quantization level, across all metrics above.
-- [ ] Comparison **graph(s)**: visualize TTFT, TPOT/throughput, memory usage across configurations.
-- [ ] Optional/strongly recommended: a **"Model Roofline"**-style diagram showing where each configuration sits relative to compute-bound vs memory-bound limits. (EX05 §3)
+- [x] Comparison **table**: baseline vs AirLLM vs each quantization level, across all metrics above. → `experiments/04_analysis_and_plots.py` → `results/performance_table.md`
+- [x] Comparison **graph(s)**: visualize TTFT, TPOT/throughput, memory usage across configurations. → `figures/performance_comparison.png`, `figures/memory_usage.png`
+- [x] Optional/strongly recommended: a **"Model Roofline"**-style diagram showing where each configuration sits relative to compute-bound vs memory-bound limits. (EX05 §3) → `figures/roofline_diagram.png`
 
 ### ✅ Verification — Section 4
-- [ ] Baseline failure/slowness is documented with evidence (logs/screenshots).
-- [ ] AirLLM run succeeds and is documented.
-- [ ] At least 3 quantization levels tested and compared.
-- [ ] All 6 required metrics captured for every configuration.
-- [ ] Raw results saved in `results/` as structured data (not just prose).
-- [ ] At least one comparison table and one comparison graph produced.
+- [x] Baseline failure/slowness is documented with evidence (logs/screenshots). → `experiments/02_baseline_run.py` → `results/baseline_run.json`
+- [x] AirLLM run succeeds and is documented. → `experiments/03_airllm_run.py` → `results/benchmark_metrics.csv` + `results/airllm_summary.json`
+- [x] At least 3 quantization levels tested and compared. → `["4bit", "8bit", null]` in config
+- [x] All 6 required metrics captured for every configuration. → TTFT, TPOT, throughput, RAM, VRAM, total time, energy, quality score
+- [x] Raw results saved in `results/` as structured data (not just prose). → CSV + JSON
+- [x] At least one comparison table and one comparison graph produced. → `results/performance_table.md` + 3 PNGs in `figures/`
 
 ---
 

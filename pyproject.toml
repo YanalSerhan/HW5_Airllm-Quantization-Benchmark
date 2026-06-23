@@ -9,14 +9,23 @@ authors = [
 ]
 license = { text = "MIT" }
 dependencies = [
-    "accelerate>=1.14.0",
+    "accelerate>=0.29.0,<2.0",
     "airllm>=2.11.0",
+    "bitsandbytes>=0.49.2",
     "httpx>=0.28.1",
+    "matplotlib>=3.10.0",
+    "optimum>=1.16.2,<1.23",
     "psutil>=7.2.2",
     "python-dotenv>=1.2.2",
     "ruff>=0.15.18",
-    "torch>=2.12.1",
-    "transformers>=5.12.1",
+    "torch>=2.3.0",
+    "transformers>=4.40.0,<5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -29,3 +38,19 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP"]
 ignore = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+torchvision = { index = "pytorch-cu124" }
+torchaudio = { index = "pytorch-cu124" }

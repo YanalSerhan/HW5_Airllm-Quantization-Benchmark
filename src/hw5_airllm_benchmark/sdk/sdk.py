@@ -8,14 +8,15 @@ internals directly. (GUIDE §4.1)
 
 from ..services.benchmarker import BenchmarkRunner
 from ..services.economic_analysis import EconomicAnalyser
+from ..services.plotter import Plotter
 from ..shared.config import load_config
 
-__all__ = ["BenchmarkRunner", "EconomicAnalyser", "load_config"]
+__all__ = ["BenchmarkRunner", "EconomicAnalyser", "Plotter", "load_config"]
 
 
 class HW5SDK:
     """
-    Facade that wires together config, benchmarking, and analysis.
+    Facade that wires together config, benchmarking, analysis, and plotting.
 
     Why: A single SDK class guarantees that callers never need to know
     which internal service owns which responsibility. (GUIDE §4.1)
@@ -38,3 +39,14 @@ class HW5SDK:
         """Compute break-even and cost curves from collected metrics."""
         analyser = EconomicAnalyser(self._cfg)
         return analyser.analyse(metrics)
+
+    def run_plots(self, rows: list[dict], figures_dir: str = "figures") -> list:
+        """
+        Generate all comparison figures from metric rows.
+
+        Why: Routes plotting through the SDK facade so experiment scripts
+        stay thin and the plotter service can be swapped/extended without
+        changing callers. (GUIDE §4.1)
+        """
+        plotter = Plotter(self._cfg, figures_dir=figures_dir)
+        return plotter.plot_all(rows)
