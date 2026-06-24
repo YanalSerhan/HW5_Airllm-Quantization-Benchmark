@@ -281,33 +281,33 @@ project-root/
 **Why:** EX05 explicitly states this is a "binding general requirement," not optional flavor text (§5.5: "This is a mandatory, general requirement").
 
 ### 5.1 External API Cost Calculation
-- [ ] Choose a reference third-party API (e.g., OpenAI, Claude, etc.).
-- [ ] Compute cost per request: (input tokens + output tokens) × price-per-token for chosen provider.
-- [ ] Present both **per-request cost** and **cost as a function of request volume** (e.g., cost per day/month at N requests).
+- [x] Choose a reference third-party API (e.g., OpenAI, Claude, etc.).
+- [x] Compute cost per request: (input tokens + output tokens) × price-per-token for chosen provider.
+- [x] Present both **per-request cost** and **cost as a function of request volume** (e.g., cost per day/month at N requests).
 
 ### 5.2 On-Premise Cost Calculation
-- [ ] Compute **CAPEX** — hardware cost, amortized over time (depreciation schedule, e.g., straight-line over expected hardware lifetime).
-- [ ] Compute **OPEX** — electricity cost (using your measured run time + estimated wattage) + any maintenance estimate.
-- [ ] Derive an **effective cost per request** as a function of usage volume.
+- [x] Compute **CAPEX** — hardware cost, amortized over time (depreciation schedule, e.g., straight-line over expected hardware lifetime).
+- [x] Compute **OPEX** — electricity cost (using your measured run time + estimated wattage) + any maintenance estimate.
+- [x] Derive an **effective cost per request** as a function of usage volume.
 
 ### 5.3 Break-Even Analysis
-- [ ] Plot **both cost curves on one graph**: cumulative cost vs usage volume, for both On-Premise and API.
-- [ ] Identify and clearly mark the **break-even point** (volume at which local becomes cheaper than API).
-- [ ] State a clear, justified recommendation: at what usage volumes is API preferable, and at what volumes is local preferable? Include non-cost factors too (privacy, control) per EX05's note that the recommendation may favor API for cost reasons alone, or On-Prem for privacy/control reasons even if costlier. (EX05 §5.5)
-- [ ] Explicitly state **all assumptions**: prices used, usage volume assumptions, electricity rate, hardware lifetime — so the analysis is reproducible/transparent. (EX05 §5.5)
+- [x] Plot **both cost curves on one graph**: cumulative cost vs usage volume, for both On-Premise and API.
+- [x] Identify and clearly mark the **break-even point** (volume at which local becomes cheaper than API).
+- [x] State a clear, justified recommendation: at what usage volumes is API preferable, and at what volumes is local preferable? Include non-cost factors too (privacy, control) per EX05's note that the recommendation may favor API for cost reasons alone, or On-Prem for privacy/control reasons even if costlier. (EX05 §5.5)
+- [x] Explicitly state **all assumptions**: prices used, usage volume assumptions, electricity rate, hardware lifetime — so the analysis is reproducible/transparent. (EX05 §5.5)
 
 ### 5.4 (Optional but valuable) Prompt/Context Caching Note
-- [ ] Acknowledge modern API pricing nuances like prompt/context caching (e.g., PagedAttention-based caching by providers) that can shift the break-even point significantly, especially for repeated-context workloads (e.g., long-document Q&A). Discuss qualitatively how this could move your break-even curve. (EX05 §5.5)
+- [x] Acknowledge modern API pricing nuances like prompt/context caching (e.g., PagedAttention-based caching by providers) that can shift the break-even point significantly, especially for repeated-context workloads (e.g., long-document Q&A). Discuss qualitatively how this could move your break-even curve. (EX05 §5.5)
 
 ### 5.5 (Optional) Third Scenario — Cloud GPU Rental
 - [ ] If pursued: add a third cost curve for renting a cloud GPU (e.g., hourly GPU rental × runtime), plotted alongside On-Prem and API for a 3-way comparison.
 
 ### ✅ Verification — Section 5
-- [ ] API cost-per-request formula and result shown.
-- [ ] On-Prem CAPEX+OPEX formula and result shown.
-- [ ] Break-even graph exists with clearly marked crossover point.
-- [ ] Final recommendation is explicit and justified (not just numbers with no conclusion).
-- [ ] All assumptions are listed explicitly near the analysis.
+- [x] API cost-per-request formula and result shown.
+- [x] On-Prem CAPEX+OPEX formula and result shown.
+- [x] Break-even graph exists with clearly marked crossover point.
+- [x] Final recommendation is explicit and justified (not just numbers with no conclusion).
+- [x] All assumptions are listed explicitly near the analysis.
 
 ---
 

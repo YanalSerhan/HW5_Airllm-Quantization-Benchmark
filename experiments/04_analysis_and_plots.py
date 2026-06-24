@@ -3,9 +3,10 @@ Experiment 04 — Analysis & Plot Generation.
 
 Loads results/benchmark_metrics.csv produced by experiment 03 and:
   1. Prints and saves a Markdown comparison table.
-  2. Generates three required figures via HW5SDK.run_plots():
-       - figures/performance_comparison.png
-       - figures/memory_usage.png
+  2. Generates four required figures via HW5SDK.run_plots():
+       - figures/latency_comparison.png   (TTFT & TPOT side-by-side)
+       - figures/throughput_comparison.png (tokens/sec per quant level)
+       - figures/memory_usage.png          (peak RAM, CPU-only machine)
        - figures/roofline_diagram.png
 
 Run with: uv run python experiments/04_analysis_and_plots.py
@@ -34,7 +35,6 @@ _DISPLAY_COLS = [
     ("tpot_seconds", "TPOT (s)", ">10"),
     ("throughput_tokens_per_sec", "Tok/s", ">8"),
     ("peak_ram_gb", "RAM (GB)", ">9"),
-    ("peak_vram_gb", "VRAM (GB)", ">10"),
     ("total_time_seconds", "Total (s)", ">10"),
     ("estimated_energy_wh", "Energy (Wh)", ">12"),
     ("quality_score", "Quality", ">9"),

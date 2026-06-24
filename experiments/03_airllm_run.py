@@ -9,6 +9,9 @@ Results are saved to:
   - results/benchmark_metrics.csv   (one row per quantization level)
   - results/airllm_summary.json     (human-readable summary)
 
+NOTE: benchmark_metrics.csv is CLEARED at the start of each run so that
+stale rows from a previous sweep never contaminate the new results.
+
 Run with: uv run python experiments/03_airllm_run.py
 """
 
@@ -46,6 +49,13 @@ def main() -> None:
     sdk = HW5SDK()
     cfg = sdk.config
     quant_levels: list = cfg.get("quantization_levels", ["4bit", "8bit", None])
+
+    # Clear stale CSV so each sweep starts clean (append mode in BenchmarkRunner
+    # would otherwise pile rows from multiple runs into the same file).
+    csv_path = Path(cfg.get("log_file", "results/benchmark_metrics.csv"))
+    if csv_path.exists():
+        csv_path.unlink()
+        logger.info("Cleared stale CSV: %s", csv_path)
 
     logger.info("=== Experiment 03: AirLLM Quantization Sweep ===")
     logger.info("Model   : %s", cfg.get("model_name"))

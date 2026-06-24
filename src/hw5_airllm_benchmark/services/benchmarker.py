@@ -5,14 +5,23 @@ Building-block contract (GUIDE §16):
   Input:  cfg dict (from config/setup.json), quant_level str | None
   Output: dict of metric keys matching constants.py METRIC_* names
   Setup:  constructor receives cfg; no hidden global state
+
+Measurement design (two-pass, post-bug-fix):
+  Pass 1 (1 token)  → TTFT: true prefill-stage timing.
+  Pass 2 (N tokens) → Decode timing, peak RAM, output text.
+  total_time = ttft + decode_time  (both passes summed).
+  TPOT = (decode_time - ttft) / (output_len - 1)  [decode only, net of prefill].
+  throughput = output_len / decode_time.
+  peak_ram = absolute peak RSS during Pass 2 (not a cross-run delta).
+  peak_vram = 0.0 (hardware_spec confirms CPU-only, no CUDA device).
+
+RAM monitoring delegated to _ram_monitor.py. (GUIDE §3.2, §16.2)
 """
 
 import csv
 import logging
 import time
 from pathlib import Path
-
-import psutil
 
 from ..constants import (
     KEY_LAYER_SHARDS_PATH,
@@ -31,6 +40,7 @@ from ..constants import (
     METRIC_TPOT,
     METRIC_TTFT,
 )
+from ._ram_monitor import make_ram_monitor
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +77,7 @@ class BenchmarkRunner:
 
     def run(self, quant_level: str | None) -> dict:
         """
-        Load model, run inference, capture metrics, persist to CSV.
+        Load model, run two-pass inference, capture metrics, persist to CSV.
 
         Returns a metrics dict using the keys defined in constants.py.
         """
@@ -84,13 +94,11 @@ class BenchmarkRunner:
 
     def _load_model(self, quant_level: str | None):
         """Initialise AirLLM model at the requested quantization level."""
-        # Import here so the module is importable even without GPU/CUDA
         from airllm import AutoModel  # type: ignore[import]
 
-        compression = quant_level  # e.g. "4bit", "8bit", or None
         model = AutoModel.from_pretrained(
             self._model_name,
-            compression=compression,
+            compression=quant_level,
             layer_shards_saving_path=self._shards_path,
         )
         from transformers import AutoTokenizer  # type: ignore[import]
@@ -99,77 +107,57 @@ class BenchmarkRunner:
         return model, tokenizer
 
     def _measure(self, model, tokenizer, quant_level: str | None) -> dict:
-        """Run one inference pass and return raw metric values."""
+        """
+        Two-pass inference timing.
+
+        Pass 1 (1 token) → TTFT. Pass 2 (N tokens) → decode metrics.
+        See module docstring for the full measurement rationale.
+        """
         inputs = tokenizer(self._prompt, return_tensors="pt")
         input_len = inputs["input_ids"].shape[-1]
 
-        import threading
-        import os
-        pid = os.getpid()
-        ram_before = psutil.Process(pid).memory_info().rss / 1e9
-        peak_ram_abs = [ram_before]
-        stop_thread = False
-
-        def _monitor_ram():
-            proc = psutil.Process(pid)
-            while not stop_thread:
-                try:
-                    current_ram = proc.memory_info().rss / 1e9
-                    if current_ram > peak_ram_abs[0]:
-                        peak_ram_abs[0] = current_ram
-                except Exception:
-                    pass
-                time.sleep(0.05)
-
-        monitor_thread = threading.Thread(target=_monitor_ram)
-        monitor_thread.start()
-
-        self._reset_vram_stats()
+        # Pass 1: TTFT (prefill-only)
         t0 = time.perf_counter()
-
-        # --- Prefill: generate exactly 1 token to capture TTFT ---
         model.generate(**inputs, max_new_tokens=1, use_cache=False)
-        t_first = time.perf_counter()
-        ttft = t_first - t0
+        ttft = time.perf_counter() - t0
 
-        # --- Decode: generate remaining tokens ---
+        # Pass 2: Full decode with RAM monitoring
+        ram_samples: list[float] = []
+        monitor, stop_flag = make_ram_monitor(ram_samples)
+        monitor.start()
+
+        t_decode_start = time.perf_counter()
         out = model.generate(
-            **inputs,
-            max_new_tokens=self._max_new_tokens,
-            use_cache=False,
+            **inputs, max_new_tokens=self._max_new_tokens, use_cache=False
         )
-        t_end = time.perf_counter()
+        decode_time = time.perf_counter() - t_decode_start
 
-        stop_thread = True
-        monitor_thread.join(timeout=1.0)
+        stop_flag[0] = True
+        monitor.join(timeout=1.0)
 
         output_len = out.shape[-1] - input_len
-        total_time = t_end - t0
-        tpot = (t_end - t_first) / max(output_len - 1, 1)
-        throughput = output_len / total_time
-        peak_ram = max(peak_ram_abs[0] - ram_before, 0.0)
-        peak_vram = self._get_peak_vram_gb()
+        tpot = max(decode_time - ttft, 0.0) / max(output_len - 1, 1)
+        throughput = output_len / decode_time
+        peak_ram = max(ram_samples) if ram_samples else 0.0
+        total_time = ttft + decode_time
         energy_wh = (self._cpu_tdp * total_time) / 3600.0
 
         output_text = tokenizer.decode(out[0][input_len:], skip_special_tokens=True)
-        quality = self._score_quality(output_text)
-
         return {
             METRIC_QUANT_LEVEL: quant_level or "fp16",
             METRIC_TTFT: round(ttft, 4),
             METRIC_TPOT: round(tpot, 4),
             METRIC_THROUGHPUT: round(throughput, 4),
             METRIC_PEAK_RAM_GB: round(peak_ram, 3),
-            METRIC_PEAK_VRAM_GB: round(peak_vram, 3),
+            METRIC_PEAK_VRAM_GB: 0.0,           # CPU-only machine, no CUDA
             METRIC_TOTAL_TIME: round(total_time, 4),
             METRIC_ENERGY_WH: round(energy_wh, 6),
-            METRIC_QUALITY_SCORE: quality,
-            METRIC_OUTPUT_TEXT: output_text[:500],  # truncate for CSV safety
+            METRIC_QUALITY_SCORE: self._score_quality(output_text),
+            METRIC_OUTPUT_TEXT: output_text[:500],
         }
 
     def _append_csv(self, row: dict) -> None:
         """Append one result row to the CSV log file."""
-        # Exclude output text from CSV (stored separately if needed)
         csv_row = {k: v for k, v in row.items() if k != METRIC_OUTPUT_TEXT}
         write_header = not self._log_file.exists()
         with open(self._log_file, "a", newline="", encoding="utf-8") as fh:
@@ -178,47 +166,14 @@ class BenchmarkRunner:
                 writer.writeheader()
             writer.writerow(csv_row)
 
-    @staticmethod
-    def _get_vram_gb() -> float:
-        """Return currently allocated VRAM in GB, or 0.0 if no CUDA device."""
-        try:
-            import torch  # type: ignore[import]
-
-            if torch.cuda.is_available():
-                return torch.cuda.memory_allocated() / 1e9
-        except ImportError:
-            pass
-        return 0.0
-
-    @staticmethod
-    def _reset_vram_stats() -> None:
-        try:
-            import torch  # type: ignore[import]
-            if torch.cuda.is_available():
-                torch.cuda.reset_peak_memory_stats()
-        except ImportError:
-            pass
-
-    @staticmethod
-    def _get_peak_vram_gb() -> float:
-        try:
-            import torch  # type: ignore[import]
-            if torch.cuda.is_available():
-                return torch.cuda.max_memory_allocated() / 1e9
-        except ImportError:
-            pass
-        return 0.0
-
     def _score_quality(self, text: str) -> float:
         """
-        Simple quality score: fraction of unique bigrams over total bigrams.
+        Bigram diversity score: unique bigrams / total bigrams.
 
-        A score near 1.0 means diverse, coherent output; near 0.0 means
-        heavy repetition (degenerate quantization artefact). Range: [0, 1].
+        Near 1.0 = diverse/coherent output. Near 0.0 = degenerate repetition.
         """
         words = text.lower().split()
         if len(words) < 2:
             return 0.0
         bigrams = list(zip(words, words[1:]))
-        ratio = len(set(bigrams)) / len(bigrams)
-        return round(ratio, 4)
+        return round(len(set(bigrams)) / len(bigrams), 4)

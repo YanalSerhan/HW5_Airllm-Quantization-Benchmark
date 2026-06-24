@@ -42,7 +42,7 @@ class HW5SDK:
 
     def run_plots(self, rows: list[dict], figures_dir: str = "figures") -> list:
         """
-        Generate all comparison figures from metric rows.
+        Generate all Phase 4 performance comparison figures from metric rows.
 
         Why: Routes plotting through the SDK facade so experiment scripts
         stay thin and the plotter service can be swapped/extended without
@@ -50,3 +50,15 @@ class HW5SDK:
         """
         plotter = Plotter(self._cfg, figures_dir=figures_dir)
         return plotter.plot_all(rows)
+
+    def run_economic_plots(
+        self, economic_result: dict, figures_dir: str = "figures"
+    ) -> list:
+        """
+        Generate Phase 5 economic figures: break-even curve + cost-per-quant.
+
+        Why: Same facade pattern as run_plots — callers stay decoupled from
+        the underlying plotter/helper module structure. (GUIDE §4.1)
+        """
+        plotter = Plotter(self._cfg, figures_dir=figures_dir)
+        return plotter.plot_economic_analysis(economic_result)
