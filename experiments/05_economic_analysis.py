@@ -96,7 +96,7 @@ def _print_summary(result: dict) -> None:
     else:
         print("  The API is currently cheaper than On-Premise for this volume.")
         print("  On-Premise might only be justified by non-cost factors like data privacy.")
-        
+
     print("\n--- API Prompt/Context Caching Note ---")
     print("  Modern APIs use PagedAttention/prompt caching. For workloads with")
     print("  repeated context (e.g., long-document Q&A), API input costs can")

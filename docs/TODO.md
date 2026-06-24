@@ -422,57 +422,57 @@ project-root/
 
 ## 11. Repository & Documentation Final Pass (GUIDE §17 / §20 Final Checklists)
 
-- [ ] `README.md` complete (root level), full user-manual style.
-- [ ] `docs/PRD.md`, `docs/PLAN.md`, `docs/TODO.md` complete and consistent with final implementation.
-- [ ] Per-mechanism PRDs (`docs/PRD_*.md`) exist for all major components. (GUIDE §2.3, §17.1)
-- [ ] Architecture documented with diagrams (block diagrams of the pipeline at minimum; C4 Model diagrams — Context, Container, Component — if feasible). (GUIDE §2.2, §17.1)
-- [ ] **Prompt Engineering Log** (`docs/prompt_log.md`) populated with all significant AI prompts used during development. (GUIDE §8.3, §17.1)
-- [ ] Code: modular, ≤150 lines/file, docstrings everywhere, consistent naming.
-- [ ] Package: `__init__.py` in all `src/` packages, exporting `__all__` and `__version__`. (GUIDE §14.2, §17.2)
-- [ ] Config: separated from code, `.env-example` present, no secrets, `.gitignore` correct.
-- [ ] Tests (if applicable): present and passing; coverage noted if measured.
-- [ ] Linter (`ruff check`) clean.
-- [ ] Version tracking consistent (`version.py` / `pyproject.toml` both say `1.00`+).
-- [ ] `uv` used exclusively for all dependency/run operations — verify no stray `pip install` or `python -m` calls remain anywhere (scripts, README, CI).
-- [ ] **Extension points documented**: where applicable, document how the codebase can be extended (e.g., adding a new quantization level, new model, new metric). (GUIDE §12.1, §17.6)
-- [ ] **ISO/IEC 25010 quality attributes** — confirm the codebase addresses: functional suitability, performance efficiency, reliability, security, maintainability, portability. (GUIDE §13, §17.6)
-- [ ] **License section** in README: specify project license and attribute all third-party libraries (AirLLM, Hugging Face Transformers, PEFT, etc.). (GUIDE §2.1, §17.6)
-- [ ] **Deployment instructions** present and end-to-end tested from a clean clone perspective. (GUIDE §17.6, §20.2)
-- [ ] **Git history** is clean: meaningful commit messages, feature branches used, submission commit tagged (`v1.00` or equivalent). (GUIDE §8.2, §17.6)
+- [x] `README.md` complete (root level), full user-manual style.
+- [x] `docs/PRD.md`, `docs/PLAN.md`, `docs/TODO.md` complete and consistent with final implementation.
+- [x] Per-mechanism PRDs (`docs/PRD_*.md`) exist for all major components. (GUIDE §2.3, §17.1)
+- [x] Architecture documented with diagrams (block diagrams of the pipeline at minimum; C4 Model diagrams — Context, Container, Component — if feasible). (GUIDE §2.2, §17.1)
+- [x] **Prompt Engineering Log** (`docs/prompt_log.md`) populated with all significant AI prompts used during development. (GUIDE §8.3, §17.1)
+- [x] Code: modular, ≤150 lines/file, docstrings everywhere, consistent naming.
+- [x] Package: `__init__.py` in all `src/` packages, exporting `__all__` and `__version__`. (GUIDE §14.2, §17.2)
+- [x] Config: separated from code, `.env-example` present, no secrets, `.gitignore` correct.
+- [x] Tests (if applicable): present and passing; coverage noted if measured.
+- [x] Linter (`ruff check`) clean.
+- [x] Version tracking consistent (`version.py` / `pyproject.toml` both say `1.00`+).
+- [x] `uv` used exclusively for all dependency/run operations — verify no stray `pip install` or `python -m` calls remain anywhere (scripts, README, CI).
+- [x] **Extension points documented**: where applicable, document how the codebase can be extended (e.g., adding a new quantization level, new model, new metric). (GUIDE §12.1, §17.6)
+- [x] **ISO/IEC 25010 quality attributes** — confirm the codebase addresses: functional suitability, performance efficiency, reliability, security, maintainability, portability. (GUIDE §13, §17.6)
+- [x] **License section** in README: specify project license and attribute all third-party libraries (AirLLM, Hugging Face Transformers, PEFT, etc.). (GUIDE §2.1, §17.6)
+- [x] **Deployment instructions** present and end-to-end tested from a clean clone perspective. (GUIDE §17.6, §20.2)
+- [x] **Git history** is clean: meaningful commit messages, feature branches used, submission commit tagged (`v1.00` or equivalent). (GUIDE §8.2, §17.6)
 
 ---
 
 ## 12. Final Submission Validation
 
-- [ ] Repository is a single GitHub repo containing: full code, experiment scripts, raw + processed results, figures, the deep-dive report, and the README. (EX05 §7)
-- [ ] Confirm presence of:
-  - [ ] All experiment/measurement scripts
-  - [ ] The deep-dive technical report (as a file, e.g., `reports/report.md` or `.pdf`)
-  - [ ] `README.md` with all required embedded visuals
-  - [ ] Comparative tables & graphs (standalone files in `figures/` AND embedded in README/report)
-  - [ ] Economic analysis with break-even graph and explicit assumptions
-  - [ ] Theoretical discussion section
-  - [ ] Documentation of original idea(s)/extensions
-- [ ] Re-read the **"Don't" list** one final time and confirm none were violated (§13 below).
-- [ ] Push final commit, tag a release if desired (e.g., `v1.0-submission`).
-- [ ] Sanity-check repo by viewing it as a fresh visitor on GitHub (does README render correctly? Are images visible?).
+- [x] Repository is a single GitHub repo containing: full code, experiment scripts, raw + processed results, figures, the deep-dive report, and the README. (EX05 §7)
+- [x] Confirm presence of:
+  - [x] All experiment/measurement scripts
+  - [x] The deep-dive technical report (as a file, e.g., `reports/report.md` or `.pdf`)
+  - [x] `README.md` with all required embedded visuals
+  - [x] Comparative tables & graphs (standalone files in `figures/` AND embedded in README/report)
+  - [x] Economic analysis with break-even graph and explicit assumptions
+  - [x] Theoretical discussion section
+  - [x] Documentation of original idea(s)/extensions
+- [x] Re-read the **"Don't" list** one final time and confirm none were violated (§13 below).
+- [x] Push final commit, tag a release if desired (e.g., `v1.0-submission`).
+- [x] Sanity-check repo by viewing it as a fresh visitor on GitHub (does README render correctly? Are images visible?).
 
 ---
 
 ## 13. Pitfalls & "Don't Do" List (Consolidated from EX05 §6.2 and GUIDE)
 
-- [ ] ❌ Don't pick a model so enormous that **no execution is even conceivable** even via AirLLM (EX05 §6.2).
-- [ ] ❌ Don't commit your Hugging Face token in plaintext anywhere in code or notebooks (EX05 §6.2, GUIDE §7.4).
-- [ ] ❌ Don't present only raw global numbers with no graphs, tables, or linkage to lecture concepts (EX05 §6.2, §5.6).
-- [ ] ❌ Don't ignore the economic dimension — it's an integral, graded part of the assignment, not optional flavor (EX05 §6.2, §5.5).
-- [ ] ❌ Don't turn this into a polished production project at the expense of a focused, well-analyzed experiment — depth of analysis > breadth of engineering polish (EX05 §6.2).
-- [ ] ❌ Don't use `pip`/`venv`/bare `python` commands — `uv` only (GUIDE §8.4).
-- [ ] ❌ Don't hard-code secrets, rate limits, or magic config values into source code (GUIDE §7.2, §7.4).
-- [ ] ❌ Don't exceed 150 lines per source file (GUIDE §3.2).
-- [ ] ❌ Don't skip documentation of a **negative result** — a well-explained failure to optimize is acceptable and scored fairly, hiding it is not (EX05 §1).
-- [ ] ❌ Don't let the OS system drive get filled by AirLLM's layer-shard cache — set an explicit save path (EX05 §6.1).
-- [ ] ❌ Don't assume `AutoModel` works for every architecture (e.g., Qwen family) — verify model-class compatibility (EX05 §6.1).
-- [ ] ❌ Don't skip the time-estimation sanity check — if you're spending hours fighting Python syntax instead of designing experiments, you're not leveraging AI-assisted coding effectively (EX05 Appendix).
+- [x] ❌ Don't pick a model so enormous that **no execution is even conceivable** even via AirLLM (EX05 §6.2).
+- [x] ❌ Don't commit your Hugging Face token in plaintext anywhere in code or notebooks (EX05 §6.2, GUIDE §7.4).
+- [x] ❌ Don't present only raw global numbers with no graphs, tables, or linkage to lecture concepts (EX05 §6.2, §5.6).
+- [x] ❌ Don't ignore the economic dimension — it's an integral, graded part of the assignment, not optional flavor (EX05 §6.2, §5.5).
+- [x] ❌ Don't turn this into a polished production project at the expense of a focused, well-analyzed experiment — depth of analysis > breadth of engineering polish (EX05 §6.2).
+- [x] ❌ Don't use `pip`/`venv`/bare `python` commands — `uv` only (GUIDE §8.4).
+- [x] ❌ Don't hard-code secrets, rate limits, or magic config values into source code (GUIDE §7.2, §7.4).
+- [x] ❌ Don't exceed 150 lines per source file (GUIDE §3.2).
+- [x] ❌ Don't skip documentation of a **negative result** — a well-explained failure to optimize is acceptable and scored fairly, hiding it is not (EX05 §1).
+- [x] ❌ Don't let the OS system drive get filled by AirLLM's layer-shard cache — set an explicit save path (EX05 §6.1).
+- [x] ❌ Don't assume `AutoModel` works for every architecture (e.g., Qwen family) — verify model-class compatibility (EX05 §6.1).
+- [x] ❌ Don't skip the time-estimation sanity check — if you're spending hours fighting Python syntax instead of designing experiments, you're not leveraging AI-assisted coding effectively (EX05 Appendix).
 
 ---
 

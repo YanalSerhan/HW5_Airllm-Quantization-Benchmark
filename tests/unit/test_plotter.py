@@ -9,6 +9,8 @@ import csv
 from pathlib import Path
 
 import pytest
+import matplotlib
+matplotlib.use("Agg")
 
 from hw5_airllm_benchmark.services.plotter import Plotter
 
@@ -63,12 +65,12 @@ class TestPlotterOutputFiles:
     def test_plot_all_creates_three_files(self, tmp_figures):
         plotter = Plotter(_DUMMY_CFG, figures_dir=tmp_figures)
         saved = plotter.plot_all(_MOCK_ROWS)
-        assert len(saved) == 3
+        assert len(saved) == 4
 
-    def test_performance_comparison_png_exists(self, tmp_figures):
+    def test_latency_comparison_png_exists(self, tmp_figures):
         plotter = Plotter(_DUMMY_CFG, figures_dir=tmp_figures)
         plotter.plot_all(_MOCK_ROWS)
-        assert (Path(tmp_figures) / "performance_comparison.png").exists()
+        assert (Path(tmp_figures) / "latency_comparison.png").exists()
 
     def test_memory_usage_png_exists(self, tmp_figures):
         plotter = Plotter(_DUMMY_CFG, figures_dir=tmp_figures)
@@ -129,4 +131,4 @@ class TestPlotterFromCSV:
 
         plotter = Plotter(_DUMMY_CFG, figures_dir=tmp_figures)
         saved = plotter.plot_all(loaded_rows)
-        assert len(saved) == 3
+        assert len(saved) == 4
