@@ -359,10 +359,10 @@ project-root/
 
 *(Cross-reference: this pulls together 4.4 into a benchmarking-specific lens, plus GUIDE §9 "Research & Results Analysis" expectations.)*
 
-- [ ] Parameter sweep performed systematically (e.g., across quantization levels) with controlled variables. (GUIDE §9.1)
-- [ ] Results analysis notebook or script that loads raw results and produces all final tables/graphs reproducibly. (GUIDE §9.2)
-- [ ] High-quality visualizations: clear axis labels, legends, consistent color scheme, adequate resolution. Use Heatmaps/Scatter/Line/Bar/Box plots as appropriate. (GUIDE §9.3)
-- [ ] All claims about "compute-bound" vs "memory-bound" backed by the standard industry metrics (TTFT/TPOT/throughput), not guesses. (EX05 §3)
+- [x] Parameter sweep performed systematically (e.g., across quantization levels) with controlled variables. (GUIDE §9.1)
+- [x] Results analysis notebook or script that loads raw results and produces all final tables/graphs reproducibly. (GUIDE §9.2)
+- [x] High-quality visualizations: clear axis labels, legends, consistent color scheme, adequate resolution. Use Heatmaps/Scatter/Line/Bar/Box plots as appropriate. (GUIDE §9.3)
+- [x] All claims about "compute-bound" vs "memory-bound" backed by the standard industry metrics (TTFT/TPOT/throughput), not guesses. (EX05 §3)
 
 ---
 
@@ -371,26 +371,26 @@ project-root/
 **Why:** EX05 frames the entire assignment around producing this report — "The heart of this assignment is the deep-dive technical report" (§2).
 
 ### 9.1 Required Report Sections
-- [ ] Hardware documentation & model justification (§4.1 above)
-- [ ] Baseline experiment narrative + evidence (§4.2)
-- [ ] AirLLM + quantization integration narrative (§4.3)
-- [ ] Full performance comparison: tables + graphs (§4.4)
-- [ ] Economic/business analysis with break-even graph (§5)
-- [ ] Theoretical discussion linking results to lecture concepts (§6)
-- [ ] Original extension (§7)
-- [ ] Conclusions / lessons learned
-- [ ] References (lecture materials, AirLLM docs, Hugging Face docs, any papers referenced)
+- [x] Hardware documentation & model justification (§4.1 above)
+- [x] Baseline experiment narrative + evidence (§4.2)
+- [x] AirLLM + quantization integration narrative (§4.3)
+- [x] Full performance comparison: tables + graphs (§4.4)
+- [x] Economic/business analysis with break-even graph (§5)
+- [x] Theoretical discussion linking results to lecture concepts (§6)
+- [x] Original extension (§7)
+- [x] Conclusions / lessons learned
+- [x] References (lecture materials, AirLLM docs, Hugging Face docs, any papers referenced)
 
 ### 9.2 Report Quality Bar
-- [ ] Written as a "lively," evidence-rich narrative — not a dry log. Include screenshots of failures/successes where relevant. (EX05 §2)
-- [ ] Globally numeric, not anecdotal — every claim is backed by a logged measurement. (EX05 §6.1 "Do")
-- [ ] If the optimization attempt **did not** improve performance, report this honestly as a valid negative result, with reasoned explanation — graded **better** than a poorly-explained positive result. (EX05 §1)
-- [ ] Use academic-style figures/tables consistent with GUIDE §9.2 (LaTeX-style rigor if applicable, though Markdown/Jupyter is fine for this assignment).
+- [x] Written as a "lively," evidence-rich narrative — not a dry log. Include screenshots of failures/successes where relevant. (EX05 §2)
+- [x] Globally numeric, not anecdotal — every claim is backed by a logged measurement. (EX05 §6.1 "Do")
+- [x] If the optimization attempt **did not** improve performance, report this honestly as a valid negative result, with reasoned explanation — graded **better** than a poorly-explained positive result. (EX05 §1)
+- [x] Use academic-style figures/tables consistent with GUIDE §9.2 (LaTeX-style rigor if applicable, though Markdown/Jupyter is fine for this assignment).
 
 ### ✅ Verification — Section 9
-- [ ] All 9 sections from §9.1 present in the report file (`reports/`).
-- [ ] Every figure in `figures/` is referenced somewhere in the report text.
-- [ ] No "naked" numbers without explanation.
+- [x] All 9 sections from §9.1 present in the report file (`reports/`).
+- [x] Every figure in `figures/` is referenced somewhere in the report text.
+- [x] No "naked" numbers without explanation.
 
 ---
 
@@ -399,24 +399,24 @@ project-root/
 **Why:** EX05 explicitly requires the README to be a clear, standalone entry point for an external reader, distinct from (but consistent with) the deep-dive report.
 
 ### Required README Sections (EX05 §8 — exhaustive list)
-- [ ] Hardware specification + model-choice justification
-- [ ] Experiment description: stages, tools used
-- [ ] Summary of findings: baseline vs AirLLM vs quantization
-- [ ] Summary of economic feasibility analysis + final recommendation
-- [ ] Explanation linking results to lecture concepts
-- [ ] Clear instructions to **reproduce the experiment** (install steps, run commands)
-- [ ] Embedded visual elements: tables, graphs, comparison summaries, screenshots — **must be embedded directly in the README**, not just linked elsewhere
+- [x] Hardware specification + model-choice justification
+- [x] Experiment description: stages, tools used
+- [x] Summary of findings: baseline vs AirLLM vs quantization
+- [x] Summary of economic feasibility analysis + final recommendation
+- [x] Explanation linking results to lecture concepts
+- [x] Clear instructions to **reproduce the experiment** (install steps, run commands)
+- [x] Embedded visual elements: tables, graphs, comparison summaries, screenshots — **must be embedded directly in the README**, not just linked elsewhere
 
 ### Additional README Hygiene (GUIDE §2.1, §17.1)
-- [ ] Installation instructions: step-by-step, system requirements, environment setup, common troubleshooting
-- [ ] Usage instructions: typical workflows, CLI examples, flags
-- [ ] Configuration guide: what's in `config/*.json` and what it controls
-- [ ] License & credits section, including attribution to any third-party libraries (AirLLM, Hugging Face, etc.)
+- [x] Installation instructions: step-by-step, system requirements, environment setup, common troubleshooting
+- [x] Usage instructions: typical workflows, CLI examples, flags
+- [x] Configuration guide: what's in `config/*.json` and what it controls
+- [x] License & credits section, including attribution to any third-party libraries (AirLLM, Hugging Face, etc.)
 
 ### ✅ Verification — Section 10
-- [ ] README is self-contained: an outside reader could understand goal, method, and conclusion without opening the full report.
-- [ ] At least one table and one graph are visibly embedded in the README itself.
-- [ ] Reproduction instructions tested by literally re-running them from a clean clone (or at least mentally walking through each command).
+- [x] README is self-contained: an outside reader could understand goal, method, and conclusion without opening the full report.
+- [x] At least one table and one graph are visibly embedded in the README itself.
+- [x] Reproduction instructions tested by literally re-running them from a clean clone (or at least mentally walking through each command).
 
 ---
 
