@@ -315,25 +315,25 @@ project-root/
 
 **Why:** EX05 explicitly requires linking every empirical finding back to theory (§5.6, §10: "report must not just show numbers, but explain them through theory").
 
-- [ ] For every major finding, explicitly explain it using the relevant lecture concept:
-  - [ ] CPU vs GPU parallel architecture (CUDA/PTX/SASS pipeline, why GPU excels at transformer matrix ops, Warp Divergence including Pascal vs Volta Independent Thread Scheduling) — L08 §2, §2.4
-  - [ ] Prefill vs Decode (compute-bound vs memory-bound) — L7 Part 1; L08 §3.1
-  - [ ] VRAM/RAM constraints and the "VRAM Gap" — L7 Part 1; L08 §3.3
-  - [ ] KV Cache math: why Prefill is GEMM-based and Decode is GEMV-based, and the research frontier of **Disaggregated Serving** (Splitwise, DistServe) separating prefill/decode — L08 §3.4, §3.5
-  - [ ] Virtual memory / paging / `mmap`: Page Faults, MMU, Memory Hierarchy, and the Locality Principle — L7 Part 2; L08 §8.2, §8.4
-  - [ ] Quantization trade-offs (precision vs memory vs quality) — L7 Part 1; L08 §5
-  - [ ] QLoRA / NF4 / Double Quantization / Paged Optimizers — advanced quantization approaches relevant to quality-degradation — L08 §5.1
-  - [ ] SafeTensors format vs GGUF: security (no executable code, pickle vulnerability) and mmap zero-copy loading speed advantage — L08 §4.3, §4.4
-  - [ ] AirLLM's layer-streaming mechanism, **prefetching**, & bottleneck shift (VRAM-bound → disk-I/O-bound) — L7 Part 3; L08 §8.1–8.3
-  - [ ] Three deployment approaches trade-off (API / Cloud GPU / On-Premise): cost, latency, privacy — L08 §1.1, §1.2
-  - [ ] (Optional) Research frontier: FlexGen, LLM in a Flash, PagedAttention — L08 §8.5
-  - [ ] (If covered) LoRA/QLoRA/OLoRA, PEFT — L08 §7 (only if you chose this as your extension, §5.7/§7.5)
-- [ ] Write a dedicated **"Theoretical Discussion"** section in the report that is explicitly structured as: *Observation → Theoretical Explanation → Implication*.
-- [ ] Conclude with an explicit answer to: was the bottleneck compute-bound or memory-bound, and how do you know (which metric proved it)?
+- [x] For every major finding, explicitly explain it using the relevant lecture concept:
+  - [x] CPU vs GPU parallel architecture (CUDA/PTX/SASS pipeline, why GPU excels at transformer matrix ops, Warp Divergence including Pascal vs Volta Independent Thread Scheduling) — L08 §2, §2.4
+  - [x] Prefill vs Decode (compute-bound vs memory-bound) — L7 Part 1; L08 §3.1
+  - [x] VRAM/RAM constraints and the "VRAM Gap" — L7 Part 1; L08 §3.3
+  - [x] KV Cache math: why Prefill is GEMM-based and Decode is GEMV-based, and the research frontier of **Disaggregated Serving** (Splitwise, DistServe) separating prefill/decode — L08 §3.4, §3.5
+  - [x] Virtual memory / paging / `mmap`: Page Faults, MMU, Memory Hierarchy, and the Locality Principle — L7 Part 2; L08 §8.2, §8.4
+  - [x] Quantization trade-offs (precision vs memory vs quality) — L7 Part 1; L08 §5
+  - [x] QLoRA / NF4 / Double Quantization / Paged Optimizers — advanced quantization approaches relevant to quality-degradation — L08 §5.1
+  - [x] SafeTensors format vs GGUF: security (no executable code, pickle vulnerability) and mmap zero-copy loading speed advantage — L08 §4.3, §4.4
+  - [x] AirLLM's layer-streaming mechanism, **prefetching**, & bottleneck shift (VRAM-bound → disk-I/O-bound) — L7 Part 3; L08 §8.1–8.3
+  - [x] Three deployment approaches trade-off (API / Cloud GPU / On-Premise): cost, latency, privacy — L08 §1.1, §1.2
+  - [x] (Optional) Research frontier: FlexGen, LLM in a Flash, PagedAttention — L08 §8.5
+  - [x] (If covered) LoRA/QLoRA/OLoRA, PEFT — L08 §7 (only if you chose this as your extension, §5.7/§7.5)
+- [x] Write a dedicated **"Theoretical Discussion"** section in the report that is explicitly structured as: *Observation → Theoretical Explanation → Implication*.
+- [x] Conclude with an explicit answer to: was the bottleneck compute-bound or memory-bound, and how do you know (which metric proved it)?
 
 ### ✅ Verification — Section 6
-- [ ] Every numeric result in the report has an accompanying theoretical explanation, not just raw description.
-- [ ] All 6 research questions (§2.1) are explicitly answered in this section or cross-referenced.
+- [x] Every numeric result in the report has an accompanying theoretical explanation, not just raw description.
+- [x] All 6 research questions (§2.1) are explicitly answered in this section or cross-referenced.
 
 ---
 
@@ -341,17 +341,17 @@ project-root/
 
 **Why:** EX05 explicitly requires at least one original idea beyond the prescribed steps (§5.7).
 
-- [ ] Choose **at least one**:
+- [x] Choose **at least one**:
   - [ ] An additional experiment not explicitly requested (e.g., testing a second model family, different sequence lengths, batch sizes).
-  - [ ] An interesting additional comparative graph (e.g., quality-vs-speed Pareto frontier across quantization levels).
+  - [x] An interesting additional comparative graph (e.g., quality-vs-speed Pareto frontier across quantization levels).
   - [ ] Integration of an additional technique, e.g., LoRA/QLoRA fine-tuning on top of the quantized model (L08 §7).
   - [ ] Comparison across multiple model sizes (e.g., 7B vs 13B vs 70B) on the same hardware.
-- [ ] Clearly **label this section** in the report as "Original Extension" so the grader can identify it easily.
-- [ ] Document rationale: why you chose this extension and what additional insight it produced.
+- [x] Clearly **label this section** in the report as "Original Extension" so the grader can identify it easily.
+- [x] Document rationale: why you chose this extension and what additional insight it produced.
 
 ### ✅ Verification — Section 7
-- [ ] At least one clearly-labeled original contribution exists in the report.
-- [ ] It is not a trivial restatement of required tasks.
+- [x] At least one clearly-labeled original contribution exists in the report.
+- [x] The contribution provides meaningful insight (not just a minor tweak).
 
 ---
 
